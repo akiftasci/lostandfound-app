@@ -52,7 +52,7 @@ public class AdminController {
             claimedItemDto.setId(n.getId());
             claimedItemDto.setUserId(n.getUserId());
             claimedItemDto.setItemName(n.getLostItem().getItemName());
-            claimedItemDto.setQuantity(n.getLostItem().getQuantity());
+            claimedItemDto.setQuantity(n.getQuantity());
             claimedItemDto.setPlace(n.getLostItem().getPlace());
             return claimedItemDto;
         }).collect(Collectors.toList());
