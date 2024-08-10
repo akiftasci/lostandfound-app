@@ -38,7 +38,7 @@ public class UserController {
 
     @PostMapping("/claim")
     public ResponseEntity<String> claimLostItem(@RequestBody ClaimedItem claimedItem) {
-        claimService.saveClaimedItem(claimedItem);
-        return ResponseEntity.ok("Item claimed succesfuly");
+        ClaimedItem item = claimService.claimLostItem(claimedItem);
+        return ResponseEntity.ok("Item claimed succesfuly: " + item.getLostItem().getItemName());
     }
 }
