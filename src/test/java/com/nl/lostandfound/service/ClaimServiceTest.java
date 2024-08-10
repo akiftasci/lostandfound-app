@@ -33,6 +33,28 @@ public class ClaimServiceTest {
         LostItem lostItem = new LostItem();
         lostItem.setId(1L);
         lostItem.setItemName("Laptop");
+        lostItem.setQuantity(2);
+
+        ClaimedItem claimedItem = new ClaimedItem();
+        claimedItem.setLostItem(lostItem);
+        claimedItem.setUserId(1001L);
+        claimedItem.setQuantity(1);
+
+        when(lostItemRepository.findById(anyLong())).thenReturn(Optional.of(lostItem));
+        when(claimedItemRepository.save(any(ClaimedItem.class))).thenReturn(claimedItem);
+
+        ClaimedItem result = claimService.claimLostItem(claimedItem);
+
+        assertNotNull(result);
+        assertEquals(1L, result.getLostItem().getId());
+        verify(claimedItemRepository, times(1)).save(claimedItem);
+    }
+
+    @Test
+    public void testSaveClaimedItemQuantityZero() {
+        LostItem lostItem = new LostItem();
+        lostItem.setId(1L);
+        lostItem.setItemName("Laptop");
         lostItem.setQuantity(1);
 
         ClaimedItem claimedItem = new ClaimedItem();

@@ -22,16 +22,15 @@ public class ClaimService {
     @Transactional
     public ClaimedItem claimLostItem(ClaimedItem claimedItem) {
         LostItem lostItem = lostItemRepository.findById(claimedItem.getLostItem().getId()).orElseThrow(
-                () -> new EntityNotFoundException("Lost item not found")
+                    () -> new EntityNotFoundException("Lost item not found")
         );
-        int stock = lostItem.getQuantity();
-        if (claimedItem.getQuantity() > stock) {
+        int quantityAfterClaim = lostItem.getQuantity() - claimedItem.getQuantity();
+
+        //Decrease the claimed item quantity and update db
+        if (quantityAfterClaim < 0) {
             throw new IllegalArgumentException("Can not request more quantity");
         }
-        //Decrease the claimed item quantity and update db
-        lostItem.setQuantity(stock - claimedItem.getQuantity());
-        lostItemRepository.save(lostItem);
-
+        lostItem.setQuantity(quantityAfterClaim);
         claimedItem.setLostItem(lostItem);
         return claimedItemRepository.save(claimedItem);
     }
