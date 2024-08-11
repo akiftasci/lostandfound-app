@@ -70,41 +70,39 @@ public class AdminControllerIT {
                 .containsExactlyInAnyOrder("Taxi", "Railway station", "Airport", "Airport");
     }
 
-//    @Test
-//    public void testGetClaims() throws Exception {
-//        fillinDataBase();
-//
-//        String jsonResponse = mockMvc.perform(get("/admin/get-claims"))
-//                .andExpect(status().isOk())
-//                .andReturn()
-//                .getResponse()
-//                .getContentAsString();
-//
-//        List<ClaimedItemDto> claimedItems = objectMapper.readValue(jsonResponse, new TypeReference<List<ClaimedItemDto>>() {});
-//
-//        assertThat(claimedItems).hasSize(2);
-//
-//        ClaimedItemDto claimedItem = claimedItems.get(0);
-//        assertThat(claimedItem.getUserId()).isEqualTo(1001L);
-//        assertThat(claimedItem.getItemName()).isEqualTo("Laptop");
-//        assertThat(claimedItem.getQuantity()).isEqualTo(1);
-//        assertThat(claimedItem.getPlace()).isEqualTo("Taxi");
-//
-//        ClaimedItemDto claimedItem1 = claimedItems.get(1);
-//        assertThat(claimedItem1.getUserId()).isEqualTo(1002L);
-//        assertThat(claimedItem1.getItemName()).isEqualTo("Headphones");
-//        assertThat(claimedItem1.getQuantity()).isEqualTo(1);
-//        assertThat(claimedItem1.getPlace()).isEqualTo("Airport");
-//    }
+    @Test
+    public void testGetClaims() throws Exception {
+        fillinDataBase();
+
+        String jsonResponse = mockMvc.perform(get("/admin/get-claims"))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        List<ClaimedItemDto> claimedItems = objectMapper.readValue(jsonResponse, new TypeReference<List<ClaimedItemDto>>() {});
+
+        assertThat(claimedItems).hasSize(2);
+
+        ClaimedItemDto claimedItem = claimedItems.get(0);
+        assertThat(claimedItem.getUserId()).isEqualTo(1001L);
+        assertThat(claimedItem.getItemName()).isEqualTo("Laptop");
+        assertThat(claimedItem.getQuantity()).isEqualTo(1);
+        assertThat(claimedItem.getPlace()).isEqualTo("Taxi");
+
+        ClaimedItemDto claimedItem1 = claimedItems.get(1);
+        assertThat(claimedItem1.getUserId()).isEqualTo(1002L);
+        assertThat(claimedItem1.getItemName()).isEqualTo("Headphones");
+        assertThat(claimedItem1.getQuantity()).isEqualTo(1);
+        assertThat(claimedItem1.getPlace()).isEqualTo("Airport");
+    }
 
     private void fillinDataBase() {
         LostItem lostItem = new LostItem();
-        lostItem.setId(1L);
         lostItem.setItemName("Laptop");
         lostItem.setPlace("Taxi");
         lostItem.setQuantity(1);
         LostItem lostItem2 = new LostItem();
-        lostItem2.setId(2L);
         lostItem2.setItemName("Headphones");
         lostItem2.setPlace("Airport");
         lostItem2.setQuantity(1);

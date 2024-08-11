@@ -15,6 +15,6 @@ public class ClaimedItem {
     private LostItem lostItem;
     private Long userId;
     private int quantity;
-    @Transient
-    private String userName;
+//    @Transient
+//    private String userName;
 }

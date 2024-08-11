@@ -6,6 +6,7 @@ import static org.mockito.Mockito.*;
 
 import java.util.Optional;
 
+import com.nl.lostandfound.model.ClaimItemRequest;
 import com.nl.lostandfound.model.ClaimedItem;
 import com.nl.lostandfound.model.LostItem;
 import com.nl.lostandfound.repository.ClaimedItemRepository;
@@ -40,10 +41,15 @@ public class ClaimServiceTest {
         claimedItem.setUserId(1001L);
         claimedItem.setQuantity(1);
 
+        ClaimItemRequest claimItemRequest = new ClaimItemRequest();
+        claimItemRequest.setLostItemId(1L);
+        claimItemRequest.setQuantity(1);
+        claimItemRequest.setUserId(1001L);
+
         when(lostItemRepository.findById(anyLong())).thenReturn(Optional.of(lostItem));
         when(claimedItemRepository.save(any(ClaimedItem.class))).thenReturn(claimedItem);
 
-        ClaimedItem result = claimService.claimLostItem(claimedItem);
+        ClaimedItem result = claimService.claimLostItem(claimItemRequest);
 
         assertNotNull(result);
         assertEquals(1L, result.getLostItem().getId());
@@ -62,10 +68,15 @@ public class ClaimServiceTest {
         claimedItem.setUserId(1001L);
         claimedItem.setQuantity(1);
 
+        ClaimItemRequest claimItemRequest = new ClaimItemRequest();
+        claimItemRequest.setLostItemId(1L);
+        claimItemRequest.setQuantity(1);
+        claimItemRequest.setUserId(1001L);
+
         when(lostItemRepository.findById(anyLong())).thenReturn(Optional.of(lostItem));
         when(claimedItemRepository.save(any(ClaimedItem.class))).thenReturn(claimedItem);
 
-        ClaimedItem result = claimService.claimLostItem(claimedItem);
+        ClaimedItem result = claimService.claimLostItem(claimItemRequest);
 
         assertNotNull(result);
         assertEquals(1L, result.getLostItem().getId());
@@ -79,14 +90,14 @@ public class ClaimServiceTest {
         lostItem.setItemName("Laptop");
         lostItem.setQuantity(1);
 
-        ClaimedItem claimedItem = new ClaimedItem();
-        claimedItem.setLostItem(lostItem);
-        claimedItem.setUserId(1001L);
-        claimedItem.setQuantity(2);
+        ClaimItemRequest claimItemRequest = new ClaimItemRequest();
+        claimItemRequest.setLostItemId(1L);
+        claimItemRequest.setQuantity(2);
+        claimItemRequest.setUserId(1001L);
 
         when(lostItemRepository.findById(anyLong())).thenReturn(Optional.of(lostItem));
 
-        assertThrows(IllegalArgumentException.class, () -> claimService.claimLostItem(claimedItem));
+        assertThrows(IllegalArgumentException.class, () -> claimService.claimLostItem(claimItemRequest));
     }
 
     @Test
@@ -95,8 +106,13 @@ public class ClaimServiceTest {
         claimedItem.setLostItem(new LostItem());
         claimedItem.getLostItem().setId(1L);
 
+        ClaimItemRequest claimItemRequest = new ClaimItemRequest();
+        claimItemRequest.setLostItemId(1L);
+        claimItemRequest.setQuantity(1);
+        claimItemRequest.setUserId(1001L);
+
         when(lostItemRepository.findById(anyLong())).thenReturn(Optional.empty());
 
-        assertThrows(EntityNotFoundException.class, () -> claimService.claimLostItem(claimedItem));
+        assertThrows(EntityNotFoundException.class, () -> claimService.claimLostItem(claimItemRequest));
     }
 }

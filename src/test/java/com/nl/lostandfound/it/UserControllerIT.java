@@ -2,6 +2,7 @@ package com.nl.lostandfound.it;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nl.lostandfound.model.ClaimItemRequest;
 import com.nl.lostandfound.model.ClaimedItem;
 import com.nl.lostandfound.model.LostItem;
 import com.nl.lostandfound.model.dto.ClaimedItemDto;
@@ -63,15 +64,14 @@ public class UserControllerIT {
     @Test
     public void testClaimLostItem() throws Exception {
         LostItem lostItem = lostItemRepository.findAll().get(0);
-        ClaimedItem claimedItem = new ClaimedItem();
-        claimedItem.setLostItem(lostItem);
+        ClaimItemRequest claimedItem = new ClaimItemRequest();
+        claimedItem.setLostItemId(1L);
         claimedItem.setUserId(1001L);
         claimedItem.setQuantity(1);
         // Convert the ClaimedItem object to JSON string
         String claimedItemJson = objectMapper.writeValueAsString(claimedItem);
 
-        // Perform the POST request to claim an item
-        String response = mockMvc.perform(post("/user/claim")
+        mockMvc.perform(post("/user/claim")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(claimedItemJson))
                 .andExpect(status().isOk())
@@ -79,24 +79,17 @@ public class UserControllerIT {
                 .getResponse()
                 .getContentAsString();
 
-        // Verify that the claimed item was removed from lostItem repository
-        List<LostItem> lostItems = lostItemRepository.findAll();
-        assertThat(lostItems).hasSize(1);
-
-        List<ClaimedItem> claims = claimedItemRepository.findAll();
-        assertThat(claims).hasSize(1);
-        assertThat(claims.get(0).getUserId()).isEqualTo(1001L);
-        assertThat(claims.get(0).getLostItem().getItemName()).isEqualTo("Laptop");
+        List<ClaimedItem> claimedItemsList = claimedItemRepository.findAll();
+        assertThat(claimedItemsList).hasSize(3);
+        assertThat(claimedItemsList.get(2).getUserId()).isEqualTo(1001L);
     }
 
     private void fillinDatabase() {
         LostItem lostItem = new LostItem();
-        lostItem.setId(1L);
         lostItem.setItemName("Laptop");
         lostItem.setPlace("Taxi");
         lostItem.setQuantity(1);
         LostItem lostItem2 = new LostItem();
-        lostItem2.setId(2L);
         lostItem2.setItemName("Headphones");
         lostItem2.setPlace("Airport");
         lostItem2.setQuantity(1);

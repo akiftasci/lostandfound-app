@@ -3,6 +3,7 @@ package com.nl.lostandfound.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.nl.lostandfound.model.ClaimItemRequest;
 import com.nl.lostandfound.model.ClaimedItem;
 import com.nl.lostandfound.model.LostItem;
 import com.nl.lostandfound.model.dto.LostItemDto;
@@ -37,8 +38,8 @@ public class UserController {
     }
 
     @PostMapping("/claim")
-    public ResponseEntity<String> claimLostItem(@RequestBody ClaimedItem claimedItem) {
-        ClaimedItem item = claimService.claimLostItem(claimedItem);
+    public ResponseEntity<String> claimLostItem(@RequestBody ClaimItemRequest claimItemRequest) {
+        ClaimedItem item = claimService.claimLostItem(claimItemRequest);
         return ResponseEntity.ok("Item claimed succesfuly: " + item.getLostItem().getItemName());
     }
 }
