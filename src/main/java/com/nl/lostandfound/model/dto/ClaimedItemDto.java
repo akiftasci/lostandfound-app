@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class ClaimedItemDto {
     private Long id;
-    private Long userId;
+    private String userName;
     private int quantity;
     private String itemName;
     private String place;

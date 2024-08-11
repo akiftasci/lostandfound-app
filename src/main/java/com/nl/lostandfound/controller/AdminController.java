@@ -10,6 +10,7 @@ import com.nl.lostandfound.model.LostItem;
 import com.nl.lostandfound.model.dto.ClaimedItemDto;
 import com.nl.lostandfound.service.ClaimService;
 import com.nl.lostandfound.service.LostItemService;
+import com.nl.lostandfound.service.UserService;
 import com.nl.lostandfound.util.PDFExtractor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,9 @@ public class AdminController {
 
     @Autowired
     private ClaimService claimService;
+
+    @Autowired
+    private UserService userService;
 
     @PostMapping("/upload")
     public ResponseEntity<String> uploadLostItems(@RequestParam("file") MultipartFile file) {
@@ -50,9 +54,9 @@ public class AdminController {
         List<ClaimedItemDto> claimedItemDtos = claimedItems.stream().map( n -> {
             ClaimedItemDto claimedItemDto = new ClaimedItemDto();
             claimedItemDto.setId(n.getId());
-            claimedItemDto.setUserId(n.getUserId());
+            claimedItemDto.setUserName(userService.getUserName(n.getUserId()));
             claimedItemDto.setItemName(n.getLostItem().getItemName());
-            claimedItemDto.setQuantity(n.getLostItem().getQuantity());
+            claimedItemDto.setQuantity(n.getQuantity());
             claimedItemDto.setPlace(n.getLostItem().getPlace());
             return claimedItemDto;
         }).collect(Collectors.toList());

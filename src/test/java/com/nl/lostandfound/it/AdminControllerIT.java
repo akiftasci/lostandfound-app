@@ -85,13 +85,13 @@ public class AdminControllerIT {
         assertThat(claimedItems).hasSize(2);
 
         ClaimedItemDto claimedItem = claimedItems.get(0);
-        assertThat(claimedItem.getUserId()).isEqualTo(1001L);
+        assertThat(claimedItem.getUserName()).isEqualTo("James");
         assertThat(claimedItem.getItemName()).isEqualTo("Laptop");
         assertThat(claimedItem.getQuantity()).isEqualTo(1);
         assertThat(claimedItem.getPlace()).isEqualTo("Taxi");
 
         ClaimedItemDto claimedItem1 = claimedItems.get(1);
-        assertThat(claimedItem1.getUserId()).isEqualTo(1002L);
+        assertThat(claimedItem1.getUserName()).isEqualTo("Ron");
         assertThat(claimedItem1.getItemName()).isEqualTo("Headphones");
         assertThat(claimedItem1.getQuantity()).isEqualTo(1);
         assertThat(claimedItem1.getPlace()).isEqualTo("Airport");
