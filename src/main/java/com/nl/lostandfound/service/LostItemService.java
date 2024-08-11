@@ -16,7 +16,7 @@ public class LostItemService {
         return lostItemRepository.findAll();
     }
 
-    public LostItem saveLostItem(LostItem lostItem) {
-        return lostItemRepository.save(lostItem);
+    public void saveLostItem(LostItem lostItem) {
+        lostItemRepository.save(lostItem);
     }
 }
